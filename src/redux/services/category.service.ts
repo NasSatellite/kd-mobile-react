@@ -1,14 +1,14 @@
-import { baseApi } from "./base.service";
+import {baseApi} from './base.service';
 
 const _categoryApi = baseApi.enhanceEndpoints({
-  addTagTypes: ["Category", "Categories", "SubCategory", "Subcategories"],
+  addTagTypes: ['Category', 'Categories', 'SubCategory', 'Subcategories'],
 });
 
 export const categoryApi = _categoryApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getCategory: builder.query({
-      query: (id) => `/category/${id}`,
-      providesTags: ["Categories"],
+      query: id => `/category/${id}`,
+      providesTags: ['Categories'],
       // onQueryStarted: async (arg, api) => {
       //   try {
       //     const categories = await api.queryFulfilled;
@@ -23,30 +23,30 @@ export const categoryApi = _categoryApi.injectEndpoints({
     getCategoryies: builder.query({
       query: () => {
         return {
-          url: "/category",
-          method: "GET",
+          url: '/category',
+          method: 'GET',
         };
       },
     }),
 
     addCategory: builder.mutation({
-      query: (body) => {
+      query: body => {
         return {
-          url: "/category",
-          method: "POST",
+          url: '/category',
+          method: 'POST',
           body,
         };
       },
     }),
 
     getSubCategory: builder.query({
-      query: (id) => `/subcategory/${id}`,
+      query: id => `/subcategory/${id}`,
     }),
 
     addSubCategory: builder.mutation({
-      query: (body) => ({
-        url: "/subcategory",
-        method: "POST",
+      query: body => ({
+        url: '/subcategory',
+        method: 'POST',
         body,
       }),
     }),

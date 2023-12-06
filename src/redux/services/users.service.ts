@@ -1,36 +1,35 @@
-import { baseApi } from "./base.service";
-import { setUser } from "../features/auth/authSlice";
-import { companyApi } from "./company.service";
-import { setCompany } from "../features/company/companySlice";
+import {baseApi} from './base.service';
+import {setUser} from '../features/auth/authSlice';
+import {setCompany} from '../features/company/companySlice';
 
 export const usersApi = baseApi
   .enhanceEndpoints({
     addTagTypes: [
-      "Users",
-      "UserApi",
-      "CurrentUser",
-      "Admins",
-      "Customers",
-      "Distributors",
+      'Users',
+      'UserApi',
+      'CurrentUser',
+      'Admins',
+      'Customers',
+      'Distributors',
     ],
   })
   .injectEndpoints({
-    endpoints: (builder) => ({
+    endpoints: builder => ({
       getUsers: builder.query({
         query: () => {
           return {
-            url: "/users",
-            method: "GET",
+            url: '/users',
+            method: 'GET',
           };
         },
-        providesTags: ["Users"],
+        providesTags: ['Users'],
       }),
 
       getUser: builder.query({
-        query: (id) => {
+        query: id => {
           return {
             url: `/users/${id}`,
-            method: "GET",
+            method: 'GET',
           };
         },
       }),
@@ -38,13 +37,13 @@ export const usersApi = baseApi
       getCurrentUser: builder.query<void, void>({
         query: () => {
           return {
-            url: `/users/me`,
-            method: "GET",
+            url: '/users/me',
+            method: 'GET',
           };
         },
         onQueryStarted: async (arg, api) => {
           try {
-            const { data }: any = await api.queryFulfilled;
+            const {data}: any = await api.queryFulfilled;
             api.dispatch(setUser(data));
             api.dispatch(setCompany(data?.data.company_id));
             // console.log('query',companyApi.endpoints.getCompany.useQuery(data.company_id));
@@ -53,28 +52,28 @@ export const usersApi = baseApi
             // throw error;
           }
         },
-        providesTags: ["CurrentUser"],
+        providesTags: ['CurrentUser'],
       }),
 
       AddUser: builder.mutation({
-        query: (body) => {
+        query: body => {
           return {
-            url: "/users",
-            method: "POST",
+            url: '/users',
+            method: 'POST',
             body,
           };
         },
-        invalidatesTags: ["Users", "Admins"],
+        invalidatesTags: ['Users', 'Admins'],
       }),
 
       getAdmins: builder.query({
         query: () => {
           return {
             url: `/users/admins`,
-            method: "GET",
+            method: 'GET',
           };
         },
-        providesTags: ["Admins"],
+        providesTags: ['Admins'],
       }),
     }),
   });

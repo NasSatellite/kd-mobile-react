@@ -1,14 +1,14 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react';
-import {getApiUrl} from '@/config/environment';
 import type {RootState} from '../store';
 import {setToken} from '../features/auth/authSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: getApiUrl(),
+  baseUrl: 'https://kd-api.vercel.app/api',
   credentials: 'include',
   prepareHeaders: (headers, {getState}) => {
     const token = (getState() as RootState).auth.token;
-    // console.log("all state",(getState() as RootState))
+    // console.log('all state', getState() as RootState);
     headers.set('authorization', `Bearer ${token}`);
     // if (!headers.has("Content-Type")){
     headers.set('Content-Type', 'application/json');
@@ -38,8 +38,15 @@ const baseQueryWithReauth = async (args: any, api: any, extraOptions: any) => {
 
     // console.log("refreshResult",refreshResult.data)
     if (refreshResult?.data) {
+      console.log('got new access token');
       // store the new token
       api.dispatch(setToken(refreshResult.data));
+
+      // save new refresh and access token in local storage
+      await AsyncStorage.setItem(
+        'refreshToken',
+        refreshResult.data.refresh_token,
+      );
 
       // retry original query with new access token
       result = await baseQuery(args, api, extraOptions);

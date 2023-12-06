@@ -6,79 +6,74 @@
  */
 
 import React from 'react';
+import 'react-native-gesture-handler';
 // import type {PropsWithChildren} from 'react';
 
-// import {
-//   Colors,
-//   DebugInstructions,
-//   Header,
-//   LearnMoreLinks,
-//   ReloadInstructions,
-// } from 'react-native/Libraries/NewAppScreen';
-
-// import {FaInstagram} from 'react-icons/fa';
-
 import {Provider} from 'react-redux';
-import {store} from './src/redux/redux/store';
+import {store} from './src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
-// import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
-// import ProductsPage from '@/pages/ProductsPage';
-// import OrdersPage from '@/pages/OrdersPage';
 import ProfilePage from '@/pages/ProfilePage';
-
-// import FeatherIcons from 'react-native-vector-icons/Feather';
-// import AntIcon from 'react-native-vector-icons/AntDesign';
-// import Oticon from 'react-native-vector-icons/Octicons';
-// import Ionicons from 'react-native-vector-icons/Ionicons';
-// import InvoicesPage from '@/pages/InvoicesPage';
-// import AppBar from '@/components/AppBar';
-// import HomePage from '@/pages/HomePage';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import NavigationLayout from '@/components/NavigationLayout';
-import NotificationsPage from '@/pages/NotificationsPage';
 import CartPage from '@/pages/CartPage';
+import NotificationsPage from '@/pages/NotificationsPage';
 import LoginPage from '@/pages/LoginPage';
+import NavigationLayout from '@/components/NavigationLayout';
+
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useAppSelector} from '@/hooks/redux';
+import {useGetCurrentUserQuery} from '@/redux/services/users.service';
+import SplashScreen from '@/pages/SplashScreen';
+import ProductDetails from '@/pages/ProductDetails';
+import {UserTypes} from '@/constants/userType';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 export const AppWrapper = () => {
   return (
     <Provider store={store}>
-      <App />
+      <GestureHandlerRootView style={{flex: 1}}>
+        <App />
+      </GestureHandlerRootView>
     </Provider>
   );
 };
 
 const Stack = createNativeStackNavigator();
-// const Tab = createBottomTabNavigator();
-function App(): JSX.Element {
-  // const isDarkMode = useColorScheme() === 'dark';
-  // const user = useAppSelector(state => state.auth.user);
-  // const IconSize = 24;
 
+function App(): JSX.Element {
+  const {isLoading} = useGetCurrentUserQuery(undefined);
+  const user = useAppSelector(state => state.auth.user);
+
+  if (isLoading) {
+    return <SplashScreen />;
+  }
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="App">
-        <Stack.Screen
-          name="App"
-          component={NavigationLayout}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Group>
-          <Stack.Screen name="Cart" component={CartPage} />
-          <Stack.Screen name="Notification" component={NotificationsPage} />
-          <Stack.Screen name="User" component={ProfilePage} />
-        </Stack.Group>
-        <Stack.Group screenOptions={{headerShown: false}}>
-          <Stack.Screen name="Login" component={LoginPage} />
-          <Stack.Screen name="ForgotPassword" component={ProfilePage} />
-        </Stack.Group>
+        {user?.email && user?.role === UserTypes.CUSTOMER ? (
+          <>
+            <Stack.Screen
+              name="App"
+              component={NavigationLayout}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <Stack.Group>
+              <Stack.Screen name="Cart" component={CartPage} />
+              <Stack.Screen name="Notification" component={NotificationsPage} />
+              <Stack.Screen name="User" component={ProfilePage} />
+              <Stack.Screen name="ProductDetails" component={ProductDetails} />
+            </Stack.Group>
+          </>
+        ) : (
+          <Stack.Group screenOptions={{headerShown: false}}>
+            <Stack.Screen name="Login" component={LoginPage} />
+            <Stack.Screen name="ForgotPassword" component={ProfilePage} />
+          </Stack.Group>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-
-// const styles = StyleSheet.create({});
 
 export default App;

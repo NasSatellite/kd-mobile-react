@@ -16,8 +16,8 @@ const initialState: AuthState = {
   token: null,
   user: {
     _id: '',
-    name: 'lucky',
-    email: 'luckyYoilab@example.com',
+    name: '',
+    email: '',
     company_id: '',
     role: '',
   },
@@ -37,7 +37,10 @@ export const authSlice = createSlice({
     },
 
     setUser: (state, action) => {
-      return {...current(state), user: action.payload?.data};
+      return {
+        ...current(state),
+        user: action.payload?.data ?? action.payload,
+      };
     },
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
