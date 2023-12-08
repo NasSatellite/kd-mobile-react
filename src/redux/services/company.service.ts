@@ -1,32 +1,32 @@
-import { baseApi } from "./base.service";
-import { setCompany } from "../features/company/companySlice";
+import {baseApi} from './base.service';
+import {setCompany} from '../features/company/companySlice';
 
-const _companyApi = baseApi.enhanceEndpoints({ addTagTypes: ["Company"] });
+const _companyApi = baseApi.enhanceEndpoints({addTagTypes: ['Company']});
 
 export const companyApi = _companyApi.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     getCompany: builder.query({
-      query: (id) => `/company/${id}`,
-      providesTags: ["Company"],
+      query: id => `/company/${id}`,
+      providesTags: ['Company'],
       onQueryStarted: async (arg, api) => {
         try {
           const companyDetails = await api.queryFulfilled;
           // console.log(companyDetails);
           api.dispatch(setCompany(companyDetails.data));
         } catch (error) {
-            console.log(error)
+          console.log(error);
         }
       },
     }),
     updateCompany: builder.mutation({
-      query: ({ id, ...body }) => ({
+      query: ({id, ...body}) => ({
         url: `/company/${id}`,
-        method: "PATCH",
+        method: 'PATCH',
         body,
       }),
-      invalidatesTags: ["Company"],
-    })
+      invalidatesTags: ['Company'],
+    }),
   }),
 });
 
-export const { useGetCompanyQuery } = companyApi;
+export const {useGetCompanyQuery} = companyApi;

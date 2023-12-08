@@ -5,6 +5,7 @@ interface UserState {
   name: string;
   email: string;
   company_id: string;
+  phone: string;
   role: string;
 }
 interface AuthState {
@@ -18,6 +19,7 @@ const initialState: AuthState = {
     _id: '',
     name: '',
     email: '',
+    phone: '',
     company_id: '',
     role: '',
   },

@@ -1,18 +1,39 @@
-import {useTypedNavigation} from '@/hooks/navigator/typedNavigationHook';
 import React from 'react';
-import {View, Text, Button} from 'react-native';
+import {useLogoutMutation} from '@/redux/services/auth.service';
+import {View, Text, Pressable} from 'react-native';
+import PageContainer from '@/components/PageContainer';
+import {SharedStyles} from '@/styles/pages';
+import {useAppSelector} from '@/hooks/redux';
+import {StyleSheet} from 'react-native';
 const ProfilePage = () => {
-  const navigator = useTypedNavigation();
+  const [logout] = useLogoutMutation(undefined);
+  const user = useAppSelector(state => {
+    return state.auth.user;
+  });
+
   return (
-    <View>
-      <Text>ProfilePage</Text>
-      <Button
-        title="Logout"
-        onPress={() => {
-          navigator.navigate('Login');
+    <PageContainer>
+      <Text style={SharedStyles.pageTitle}>My Profile</Text>
+      <View style={styles.details}>
+        <Text>Name: {user?.name} </Text>
+        <Text>Email: {user?.email}</Text>
+        <Text>Phone: {user?.phone}</Text>
+        {/* <Text>{JSON.stringify(user)}</Text> */}
+      </View>
+      <Pressable
+        onPress={async () => {
+          await logout(null);
         }}
-      />
-    </View>
+        style={SharedStyles.primaryButton}>
+        <Text style={SharedStyles.primaryButtonText}>Logout</Text>
+      </Pressable>
+    </PageContainer>
   );
 };
 export default ProfilePage;
+
+const styles = StyleSheet.create({
+  details: {
+    marginVertical: 20,
+  },
+});

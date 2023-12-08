@@ -29,8 +29,8 @@ const HomePage = () => {
 
         <View style={styles.cardsContainer}>
           <Card title="Pending Orders" value="0" />
-          <Card title="Revenue This Month" value="0" />
-          <Card title="Inventory" value="0" />
+          {/* <Card title="Revenue This Month" value="0" /> */}
+          {/* <Card title="Inventory" value="0" /> */}
           <Card title="Total Orders" value="0" />
         </View>
       </PageContainer>

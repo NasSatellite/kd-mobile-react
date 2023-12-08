@@ -14,6 +14,7 @@ export const usersApi = baseApi
     ],
   })
   .injectEndpoints({
+    overrideExisting: true,
     endpoints: builder => ({
       getUsers: builder.query({
         query: () => {
@@ -45,7 +46,7 @@ export const usersApi = baseApi
           try {
             const {data}: any = await api.queryFulfilled;
             api.dispatch(setUser(data));
-            api.dispatch(setCompany(data?.data.company_id));
+            api.dispatch(setCompany(data?.data?.company_id));
             // console.log('query',companyApi.endpoints.getCompany.useQuery(data.company_id));
           } catch (error) {
             // console.log("user error",error);

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 
 interface companyState {
   _id?: string | null;
@@ -19,7 +19,7 @@ const initialState: companyState = {
 };
 
 export const companySlice = createSlice({
-  name: "company",
+  name: 'company',
   initialState: initialState,
 
   reducers: {
@@ -31,5 +31,5 @@ export const companySlice = createSlice({
   },
 });
 
-export const { setCompany } = companySlice.actions;
+export const {setCompany} = companySlice.actions;
 export default companySlice.reducer;

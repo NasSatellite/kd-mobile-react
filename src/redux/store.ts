@@ -3,15 +3,15 @@ import {setupListeners} from '@reduxjs/toolkit/dist/query';
 // import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import {baseApi} from './services/base.service';
 
-import userReducer from './features/users/userSlice';
 import authReducer from './features/auth/authSlice';
 import companyReducer from './features/company/companySlice';
+import cartReducer from './features/cart/cartSlice';
 
 export const store = configureStore({
   reducer: {
-    user: userReducer,
     auth: authReducer,
     company: companyReducer,
+    cart: cartReducer,
 
     [baseApi.reducerPath]: baseApi.reducer,
   },

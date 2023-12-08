@@ -4,7 +4,6 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import ProductsPage from '@/pages/ProductsPage';
 import OrdersPage from '@/pages/OrdersPage';
-import ProfilePage from '@/pages/ProfilePage';
 
 import FeatherIcons from 'react-native-vector-icons/Feather';
 import AntIcon from 'react-native-vector-icons/AntDesign';
@@ -13,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import InvoicesPage from '@/pages/InvoicesPage';
 import HomePage from '@/pages/HomePage';
 import AppBar from './AppBar';
+import WareHousesPage from '@/pages/WareHousesPage';
 
 // import { View, Text } from 'react-native'
 
@@ -94,8 +94,8 @@ const NavigationLayout = () => {
           }}
         />
         <Tab.Screen
-          name="Profile"
-          component={ProfilePage}
+          name="Warehouses"
+          component={WareHousesPage}
           options={{
             // eslint-disable-next-line react/no-unstable-nested-components
             tabBarIcon: ({focused}) => (

@@ -16,4 +16,13 @@ export const SharedStyles = StyleSheet.create({
     padding: 10,
     borderRadius: 10,
   },
+
+  primaryButtonText: {
+    color: 'white',
+    textAlign: 'center',
+  },
+
+  boldText: {
+    fontWeight: 'bold',
+  },
 });

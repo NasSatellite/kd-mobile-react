@@ -26,6 +26,7 @@ import SplashScreen from '@/pages/SplashScreen';
 import ProductDetails from '@/pages/ProductDetails';
 import {UserTypes} from '@/constants/userType';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
+import CheckoutPage from '@/pages/CheckoutPage';
 
 export const AppWrapper = () => {
   return (
@@ -61,14 +62,24 @@ function App(): JSX.Element {
             <Stack.Group>
               <Stack.Screen name="Cart" component={CartPage} />
               <Stack.Screen name="Notification" component={NotificationsPage} />
-              <Stack.Screen name="User" component={ProfilePage} />
-              <Stack.Screen name="ProductDetails" component={ProductDetails} />
+              <Stack.Screen name="Profile" component={ProfilePage} />
+              <Stack.Screen
+                name="ProductDetails"
+                component={ProductDetails}
+                options={{headerTitle: 'Product Details'}}
+              />
+              <Stack.Screen name="Checkout" component={CheckoutPage} />
+              <Stack.Screen
+                name="OrderDetails"
+                component={CheckoutPage}
+                options={{headerTitle: 'Order Details'}}
+              />
             </Stack.Group>
           </>
         ) : (
           <Stack.Group screenOptions={{headerShown: false}}>
             <Stack.Screen name="Login" component={LoginPage} />
-            <Stack.Screen name="ForgotPassword" component={ProfilePage} />
+            <Stack.Screen name="ForgotPassword" component={LoginPage} />
           </Stack.Group>
         )}
       </Stack.Navigator>

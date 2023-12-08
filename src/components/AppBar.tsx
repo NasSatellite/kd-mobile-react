@@ -16,6 +16,7 @@ const AppBar = () => {
           name="notifications-outline"
           size={25}
           color="black"
+          style={{padding: 10}}
           onPress={() => {
             navigator.navigate('Notification');
           }}

@@ -12,17 +12,14 @@ import {useGetProductsQuery} from '@/redux/services/product.service';
 import {StyleSheet} from 'react-native';
 import ProductCard from '@/components/cards/ProductCard';
 import {useTypedNavigation} from '@/hooks/navigator/typedNavigationHook';
+import Loading from '@/components/Loading';
 
 const ProductsPage = ({}) => {
   const navigator = useTypedNavigation();
   const {data: products, isLoading} = useGetProductsQuery(undefined);
 
   if (isLoading) {
-    return (
-      <View style={styles.noProductView}>
-        <Text>Loading...</Text>
-      </View>
-    );
+    return <Loading />;
   }
 
   return (
@@ -45,7 +42,7 @@ const ProductsPage = ({}) => {
                 renderItem={({item, index}) => (
                   <TouchableOpacity
                     // style={styles.container}
-                    onPressIn={() =>
+                    onPress={() =>
                       navigator.navigate('ProductDetails', {
                         product_id: item?._id,
                       })
@@ -54,7 +51,7 @@ const ProductsPage = ({}) => {
                       <ProductCard
                         product_id={item?._id}
                         name={item?.name}
-                        photo={item?.image}
+                        photo={item?.image_url}
                         price={item?.price ?? item?.unit_price}
                       />
                     </View>

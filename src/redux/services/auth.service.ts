@@ -86,7 +86,7 @@ const authApi = baseApi
         onQueryStarted: async (_, api) => {
           try {
             await api.queryFulfilled;
-
+            await AsyncStorage.removeItem('refreshToken');
             dispatch(clearAuthState());
             dispatch(baseApi.util.resetApiState());
           } catch (error) {
