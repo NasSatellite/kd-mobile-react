@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, SafeAreaView, Text, StyleSheet} from 'react-native';
+import {View, SafeAreaView, Text, StyleSheet, Pressable} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {useTypedNavigation} from '@/hooks/navigator/typedNavigationHook';
 import {useGetCartQuery} from '@/redux/services/cart.service';
@@ -16,25 +16,29 @@ const AppBar = () => {
           name="notifications-outline"
           size={25}
           color="black"
-          style={{padding: 10}}
+          // style={{padding: 5}}
           onPress={() => {
             navigator.navigate('Notification');
           }}
         />
 
-        <View style={styles.cartContainer}>
+        <Pressable
+          style={styles.cartContainer}
+          onPress={() => {
+            navigator.navigate('Cart');
+          }}>
           <Ionicons
             name="cart-outline"
             size={25}
             color="black"
-            onPress={() => {
-              navigator.navigate('Cart');
-            }}
+            // onPress={() => {
+            //   navigator.navigate('Cart');
+            // }}
           />
           <Text style={styles.cartCount}>
             {isCartLoading ? '...' : cartItems?.data?.length ?? 0}
           </Text>
-        </View>
+        </Pressable>
 
         <Ionicons
           name="person-outline"
@@ -53,7 +57,7 @@ export default AppBar;
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    gap: 15,
+    gap: 20,
     alignItems: 'center',
     justifyContent: 'flex-end',
     padding: 10,

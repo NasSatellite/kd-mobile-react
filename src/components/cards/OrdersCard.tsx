@@ -10,6 +10,7 @@ const OrdersCard = ({item}: CardProps) => {
       <Text>{item?.product?.name}</Text>
       <Text>{item?.quantity} cartons</Text>
       <Text>{item?.status ?? 'Pending'}</Text>
+      <Text>{new Date(item?.createdAt).toLocaleString()}</Text>
     </View>
   );
 };

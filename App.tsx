@@ -22,17 +22,21 @@ import NavigationLayout from '@/components/NavigationLayout';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useAppSelector} from '@/hooks/redux';
 import {useGetCurrentUserQuery} from '@/redux/services/users.service';
-import SplashScreen from '@/pages/SplashScreen';
 import ProductDetails from '@/pages/ProductDetails';
 import {UserTypes} from '@/constants/userType';
 import {GestureHandlerRootView} from 'react-native-gesture-handler';
 import CheckoutPage from '@/pages/CheckoutPage';
+import SplashScreen from 'react-native-splash-screen';
+import Loading from '@/components/Loading';
+import {BottomSheetModalProvider} from '@gorhom/bottom-sheet/';
 
 export const AppWrapper = () => {
   return (
     <Provider store={store}>
       <GestureHandlerRootView style={{flex: 1}}>
-        <App />
+        <BottomSheetModalProvider>
+          <App />
+        </BottomSheetModalProvider>
       </GestureHandlerRootView>
     </Provider>
   );
@@ -44,13 +48,19 @@ function App(): JSX.Element {
   const {isLoading} = useGetCurrentUserQuery(undefined);
   const user = useAppSelector(state => state.auth.user);
 
+  React.useEffect(() => {
+    if (!isLoading && user?.email) {
+      SplashScreen.hide();
+    }
+  }, [isLoading, user?.email]);
+
   if (isLoading) {
-    return <SplashScreen />;
+    return <Loading />;
   }
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="App">
-        {user?.email && user?.role === UserTypes.CUSTOMER ? (
+        {!isLoading && user?.email && user?.role === UserTypes.CUSTOMER ? (
           <>
             <Stack.Screen
               name="App"

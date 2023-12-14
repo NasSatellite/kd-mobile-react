@@ -1,9 +1,10 @@
-import React from 'react';
-import {SafeAreaView, Text, View, StyleSheet} from 'react-native';
+import React, {useCallback, useMemo, useRef} from 'react';
+import {SafeAreaView, Text, View, StyleSheet, Pressable} from 'react-native';
 import {useAppSelector} from '@/hooks/redux';
 import PageContainer from '@/components/PageContainer';
 import {SharedStyles} from '@/styles/pages';
-// import useAsyncLocalStore from '@/hooks/AsyncStore/useAsyncLocalStore';
+import {useGetOrdersQuery} from '@/redux/services/orders.service';
+import {BottomSheetModal, BottomSheetBackdrop} from '@gorhom/bottom-sheet';
 
 type CardProps = {
   title: string;
@@ -19,7 +20,34 @@ const Card = ({title, value}: CardProps) => {
 };
 
 const HomePage = () => {
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  // variables;
+  const snapPoints = useMemo(() => ['25%', '50%', '75%'], []);
+
+  // callbacks
+  const handlePresentModalPress = useCallback(() => {
+    bottomSheetModalRef.current?.present();
+  }, []);
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log('handleSheetChanges', index);
+  }, []);
   const user = useAppSelector(state => state.auth.user);
+
+  const {data: orders, isLoading: isOrdersLoading} =
+    useGetOrdersQuery(undefined);
+
+  // const getPendingOrders = () => {
+  //   if (orders) {
+  //     return orders.data.filter((order: any) => order.status === 'pending')
+  //       .length;
+  //   }
+  // };
+
+  const getTotalOrders = () => {
+    if (orders) {
+      return orders.data.length;
+    }
+  };
   return (
     <SafeAreaView>
       <PageContainer>
@@ -28,11 +56,38 @@ const HomePage = () => {
         </Text>
 
         <View style={styles.cardsContainer}>
-          <Card title="Pending Orders" value="0" />
-          {/* <Card title="Revenue This Month" value="0" /> */}
-          {/* <Card title="Inventory" value="0" /> */}
-          <Card title="Total Orders" value="0" />
+          <Card
+            title="Total Orders"
+            value={isOrdersLoading ? '...' : getTotalOrders()}
+          />
+          <Card
+            title="Pending Orders"
+            value={isOrdersLoading ? '...' : getTotalOrders()}
+          />
+          <Card title="Fulfilled Orders" value="0" />
+          <Card title="Unpaid Invoices" value="0" />
         </View>
+        <Pressable
+          style={SharedStyles.primaryButton}
+          onPress={handlePresentModalPress}>
+          <Text style={{color: 'white', fontWeight: 'bold'}}>Checkout</Text>
+        </Pressable>
+        <BottomSheetModal
+          backdropComponent={(props: any) => (
+            <BottomSheetBackdrop
+              {...props}
+              disappearsOnIndex={-1}
+              appearsOnIndex={0}
+            />
+          )}
+          ref={bottomSheetModalRef}
+          index={1}
+          snapPoints={snapPoints}
+          onChange={handleSheetChanges}>
+          <View>
+            <Text>Checkout</Text>
+          </View>
+        </BottomSheetModal>
       </PageContainer>
     </SafeAreaView>
   );

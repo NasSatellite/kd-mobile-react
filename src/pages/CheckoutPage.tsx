@@ -13,7 +13,7 @@ const CheckoutPage = () => {
   const cart = useAppSelector(state => state.cart.items);
   const navigator = useTypedNavigation();
   const {data: warehouses} = useGetWarehousesQuery(undefined);
-  const [checkout, {isLoading}] = useCheckoutMutation(undefined);
+  const [checkout] = useCheckoutMutation(undefined);
   const [address, setAddress] = React.useState('');
   return (
     <PageContainer>
@@ -65,7 +65,8 @@ const CheckoutPage = () => {
             await checkout({
               warehouse_id: address,
             });
-            navigator.navigate('Home');
+            console.log('navigating');
+            navigator.navigate('Orders');
           }}>
           <Text style={styles.confirmText}>Confirm Order</Text>
         </Pressable>

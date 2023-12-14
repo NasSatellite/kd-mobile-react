@@ -76,13 +76,14 @@ export const cartApi = baseApi
             body,
           };
         },
-        invalidatesTags: ['Cart'],
+        invalidatesTags: ['Cart', 'Orders'],
 
         onQueryStarted: async (arg, api) => {
           try {
             const {data} = await api.queryFulfilled;
             console.log(data);
             ordersApi.util.invalidateTags(['Orders']);
+            console.log('invalidated');
           } catch (error) {
             console.log(error);
           }

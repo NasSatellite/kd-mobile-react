@@ -13,10 +13,16 @@ import {StyleSheet} from 'react-native';
 import ProductCard from '@/components/cards/ProductCard';
 import {useTypedNavigation} from '@/hooks/navigator/typedNavigationHook';
 import Loading from '@/components/Loading';
+import {RefreshControl} from 'react-native';
 
 const ProductsPage = ({}) => {
   const navigator = useTypedNavigation();
-  const {data: products, isLoading} = useGetProductsQuery(undefined);
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+    refetch,
+  } = useGetProductsQuery(undefined);
 
   if (isLoading) {
     return <Loading />;
@@ -36,26 +42,27 @@ const ProductsPage = ({}) => {
               <FlatList
                 data={products?.data}
                 numColumns={2}
-                // style={styles.productsContainer}
-                // contentContainerStyle={styles.productsContainer}
+                refreshControl={
+                  <RefreshControl refreshing={isFetching} onRefresh={refetch} />
+                }
                 ItemSeparatorComponent={() => <Seperator />}
                 renderItem={({item, index}) => (
-                  <TouchableOpacity
-                    // style={styles.container}
-                    onPress={() =>
-                      navigator.navigate('ProductDetails', {
-                        product_id: item?._id,
-                      })
-                    }>
-                    <View style={index % 2 === 0 ? {} : styles.marginLeft}>
-                      <ProductCard
-                        product_id={item?._id}
-                        name={item?.name}
-                        photo={item?.image_url}
-                        price={item?.price ?? item?.unit_price}
-                      />
-                    </View>
-                  </TouchableOpacity>
+                  // <TouchableOpacity
+                  //   // style={styles.container}
+                  //   onPress={() =>
+                  //     navigator.navigate('ProductDetails', {
+                  //       product_id: item?._id,
+                  //     })
+                  //   }>
+                  <View style={index % 2 === 0 ? {} : styles.marginLeft}>
+                    <ProductCard
+                      product_id={item?._id}
+                      name={item?.name}
+                      photo={item?.image_url}
+                      price={item?.price ?? item?.unit_price}
+                    />
+                  </View>
+                  // </TouchableOpacity>
                 )}
               />
             </View>
