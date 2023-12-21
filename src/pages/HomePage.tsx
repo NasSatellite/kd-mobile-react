@@ -67,11 +67,11 @@ const HomePage = () => {
           <Card title="Fulfilled Orders" value="0" />
           <Card title="Unpaid Invoices" value="0" />
         </View>
-        <Pressable
+        {/* <Pressable
           style={SharedStyles.primaryButton}
           onPress={handlePresentModalPress}>
           <Text style={{color: 'white', fontWeight: 'bold'}}>Checkout</Text>
-        </Pressable>
+        </Pressable> */}
         <BottomSheetModal
           backdropComponent={(props: any) => (
             <BottomSheetBackdrop

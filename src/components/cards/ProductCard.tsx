@@ -72,6 +72,7 @@ const styles = StyleSheet.create({
   productImage: {
     borderRadius: 10,
     alignSelf: 'center',
+    backgroundColor: 'white',
   },
   productName: {
     fontSize: 10,

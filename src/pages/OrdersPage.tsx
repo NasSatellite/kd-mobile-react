@@ -47,6 +47,7 @@ export default OrdersPage;
 const styles = StyleSheet.create({
   listContainer: {
     marginVertical: 20,
+    marginBottom: 50,
   },
 
   noOrders: {

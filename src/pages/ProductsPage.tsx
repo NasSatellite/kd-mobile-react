@@ -59,7 +59,10 @@ const ProductsPage = ({}) => {
                       product_id={item?._id}
                       name={item?.name}
                       photo={item?.image_url}
-                      price={item?.price ?? item?.unit_price}
+                      price={
+                        item?.price ??
+                        item?.unit_price * item?.pieces_per_package
+                      }
                     />
                   </View>
                   // </TouchableOpacity>

@@ -49,7 +49,8 @@ function App(): JSX.Element {
   const user = useAppSelector(state => state.auth.user);
 
   React.useEffect(() => {
-    if (!isLoading && user?.email) {
+    SplashScreen.hide();
+    if (!isLoading) {
       SplashScreen.hide();
     }
   }, [isLoading, user?.email]);
