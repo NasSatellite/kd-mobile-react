@@ -59,6 +59,8 @@ export const cartApi = baseApi
 
       updateCart: builder.mutation({
         query: ({id, ...body}) => {
+          console.log(id);
+          console.log(body?.quantity);
           return {
             url: `/cart/${id}`,
             method: 'PATCH',
@@ -66,6 +68,14 @@ export const cartApi = baseApi
           };
         },
         invalidatesTags: ['Cart'],
+        onQueryStarted: async (arg, api) => {
+          try {
+            await api.queryFulfilled;
+            // api.dispatch(setCart(cart.data));
+          } catch (error) {
+            console.log(error);
+          }
+        },
       }),
 
       checkout: builder.mutation({

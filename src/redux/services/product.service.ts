@@ -1,23 +1,23 @@
-import { baseApi } from "./base.service";
+import {baseApi} from './base.service';
 
 const _product = baseApi.enhanceEndpoints({
-  addTagTypes: ["Products", "PackagingTypes"],
+  addTagTypes: ['Products', 'PackagingTypes'],
 });
 
 export const productApi = _product.injectEndpoints({
-  endpoints: (builder) => ({
+  endpoints: builder => ({
     addProduct: builder.mutation({
-      query: (body) => ({
-        url: "/products",
-        method: "POST",
+      query: body => ({
+        url: '/products',
+        method: 'POST',
         body,
       }),
-      invalidatesTags: ["Products"],
+      invalidatesTags: ['Products'],
     }),
 
     getProduct: builder.query({
-      query: (id) => `/packaging/${id}`,
-      providesTags: ["PackagingTypes"],
+      query: id => `/packaging/${id}`,
+      providesTags: ['PackagingTypes'],
       onQueryStarted: async (arg, api) => {
         try {
           const products = await api.queryFulfilled;
@@ -32,32 +32,32 @@ export const productApi = _product.injectEndpoints({
     getProducts: builder.query({
       query: () => {
         return {
-          url: "/products?populate=category_id,subcategory_id",
-          method: "GET",
+          url: '/products?populate=category_id,subcategory_id',
+          method: 'GET',
         };
       },
-      providesTags: ["Products"],
+      providesTags: ['Products'],
     }),
 
     addPackagingType: builder.mutation({
-      query: (body) => {
+      query: body => {
         return {
-          url: "/packaging",
-          method: "POST",
-          body
+          url: '/packaging',
+          method: 'POST',
+          body,
         };
       },
-      invalidatesTags: ["PackagingTypes"],
+      invalidatesTags: ['PackagingTypes'],
     }),
 
     getPackagingTypes: builder.query({
       query: () => {
         return {
-          url: "/packaging",
-          method: "GET",
+          url: '/packaging',
+          method: 'GET',
         };
       },
-      providesTags: ["PackagingTypes"],
+      providesTags: ['PackagingTypes'],
     }),
   }),
 });

@@ -10,6 +10,7 @@ import 'react-native-gesture-handler';
 // import type {PropsWithChildren} from 'react';
 
 import {Provider} from 'react-redux';
+import {PaperProvider} from 'react-native-paper';
 import {store} from './src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 
@@ -33,11 +34,13 @@ import {BottomSheetModalProvider} from '@gorhom/bottom-sheet/';
 export const AppWrapper = () => {
   return (
     <Provider store={store}>
-      <GestureHandlerRootView style={{flex: 1}}>
-        <BottomSheetModalProvider>
-          <App />
-        </BottomSheetModalProvider>
-      </GestureHandlerRootView>
+      <PaperProvider>
+        <GestureHandlerRootView style={{flex: 1}}>
+          <BottomSheetModalProvider>
+            <App />
+          </BottomSheetModalProvider>
+        </GestureHandlerRootView>
+      </PaperProvider>
     </Provider>
   );
 };
