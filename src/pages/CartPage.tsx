@@ -13,7 +13,7 @@ import Loading from '@/components/Loading';
 import {getTotalAmount} from '@/helpers/cartHelper';
 
 const CartPage = () => {
-  const {data: cartItems, isLoading} = useGetCartQuery(undefined);
+  const {data: cartItems, isLoading, isFetching} = useGetCartQuery(undefined);
   const [clearCart, {isLoading: isClearingCart}] =
     useClearCartMutation(undefined);
   const navigator = useTypedNavigation();
